@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,25 +19,22 @@ public class Categoria {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
+	@Column(columnDefinition = "TEXT")
 	private String descricao;
 	
-	@OneToMany(mappedBy = "categoria", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "categoria")
 	private List<Atividade> atividades = new ArrayList<>();
 	
 	public Categoria() {
 		
 	}
 
-
-
-	public Categoria(Integer id, String descricao, List<Atividade> atividades) {
+	public Categoria(Integer id, String descricao) {
 		super();
 		this.id = id;
 		this.descricao = descricao;
-		this.atividades = atividades;
 	}
-
-
 
 	public Integer getId() {
 		return id;
@@ -55,12 +52,9 @@ public class Categoria {
 		this.descricao = descricao;
 	}
 	
-
 	public List<Atividade> getAtividades() {
 		return atividades;
 	}
-
-	
 	
 	@Override
 	public int hashCode() {

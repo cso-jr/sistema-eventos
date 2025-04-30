@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,14 +25,16 @@ public class Atividade {
 	private Integer id;
 	
 	private String nome;
+	@Column(columnDefinition = "TEXT")
 	private String descricao;
+	
 	private Double preco;
 	
 	@ManyToOne
 	@JoinColumn(name="categoria_id")
 	private Categoria categoria;
 	
-	@OneToMany(mappedBy = "atividade", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "atividade")
 	private Set<Bloco> blocos = new HashSet<>();
 	
 	@ManyToMany
@@ -42,7 +44,6 @@ public class Atividade {
 	public Atividade() {
 		
 	}
-
 
 	public Atividade(Integer id, String nome, String descricao, Double preco, Categoria categoria) {
 		super();
@@ -58,81 +59,49 @@ public class Atividade {
 		return id;
 	}
 
-
-
-
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-
-
 
 	public String getNome() {
 		return nome;
 	}
 
-
-
-
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-
-
 
 	public String getDescricao() {
 		return descricao;
 	}
 
-
-
-
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-
-
-
 
 	public Double getPreco() {
 		return preco;
 	}
 
-
-
-
 	public void setPreco(Double preco) {
 		this.preco = preco;
 	}
-
-
-
 
 	public Categoria getCategoria() {
 		return categoria;
 	}
 
-
-
-
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
 	}
-
-
-
 
 	public Set<Bloco> getBlocos() {
 		return blocos;
 	}
 
-
 	public Set<Participante> getParticipantes() {
 		return participantes;
 	}
-
 
 	@Override
 	public int hashCode() {
@@ -151,7 +120,5 @@ public class Atividade {
 		Atividade other = (Atividade) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
 	
 }
