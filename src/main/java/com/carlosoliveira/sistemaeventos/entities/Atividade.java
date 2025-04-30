@@ -1,11 +1,19 @@
 package com.carlosoliveira.sistemaeventos.entities;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,21 +24,33 @@ public class Atividade {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	private String name;
+	private String nome;
 	private String descricao;
 	private Double preco;
 	
+	@ManyToOne
+	@JoinColumn(name="categoria_id")
+	private Categoria categoria;
+	
+	@OneToMany(mappedBy = "atividade", fetch = FetchType.EAGER)
+	private Set<Bloco> blocos = new HashSet<>();
+	
+	@ManyToMany
+	@JoinTable(name="tb_atividade_participante", joinColumns = @JoinColumn(name="atividade_id"), inverseJoinColumns = @JoinColumn(name="participante_id"))
+	private Set<Participante> participantes = new HashSet<>();
 	
 	public Atividade() {
 		
 	}
 
 
-	public Atividade(Integer id, String name, String descricao, Double preco) {
+	public Atividade(Integer id, String nome, String descricao, Double preco, Categoria categoria) {
+		super();
 		this.id = id;
-		this.name = name;
+		this.nome = nome;
 		this.descricao = descricao;
 		this.preco = preco;
+		this.categoria = categoria;
 	}
 
 
@@ -39,19 +59,27 @@ public class Atividade {
 	}
 
 
+
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
 
-	public String getName() {
-		return name;
+
+
+	public String getNome() {
+		return nome;
 	}
 
 
-	public void setName(String name) {
-		this.name = name;
+
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
+
+
 
 
 	public String getDescricao() {
@@ -59,9 +87,13 @@ public class Atividade {
 	}
 
 
+
+
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+
+
 
 
 	public Double getPreco() {
@@ -69,8 +101,36 @@ public class Atividade {
 	}
 
 
+
+
 	public void setPreco(Double preco) {
 		this.preco = preco;
+	}
+
+
+
+
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+
+
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+
+
+
+	public Set<Bloco> getBlocos() {
+		return blocos;
+	}
+
+
+	public Set<Participante> getParticipantes() {
+		return participantes;
 	}
 
 
